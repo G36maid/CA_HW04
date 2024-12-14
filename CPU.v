@@ -39,6 +39,8 @@ Instruction_Memory Instruction_Memory(
 assign rs1_addr = instr[19:15];
 assign rs2_addr = instr[24:20];
 assign rd_addr  = instr[11:7];
+assign funct7   = instr[31:25];
+assign funct3   = instr[14:12];
 
 Control Control(
     .opcode     (instr[6:0]),
@@ -69,7 +71,7 @@ Imm_Gen Imm_Gen(
 ALU_Control ALU_Control(
     .funct7     (funct7),
     .funct3     (funct3),
-    .ALUOp      (2'b10), // Example: R-type instructions
+    .ALUOp      (alu_op),
     .ALUCtrl    (alu_ctrl)
 );
 
@@ -84,5 +86,8 @@ ALU ALU(
 
 // Example for sequential execution
 assign pc_i = pc_o + 4;
+
+// Write back to register
+assign rd_data = alu_result;
 
 endmodule

@@ -8,7 +8,7 @@ module ALU_Control
 
 always @(*) begin
     case (ALUOp)
-        2'b00: ALUCtrl = 3'b000; // add for lw/sw/addi
+        2'b00: ALUCtrl = 3'b000; // add for addi
         2'b01: ALUCtrl = 3'b001; // sub for beq
         2'b10: begin
             case (funct3)
