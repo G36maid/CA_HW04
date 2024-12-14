@@ -48,7 +48,7 @@ assign funct7   = instr[31:25];
 Control Control(
     .opcode     (opcode),
     .RegWrite   (reg_write),
-    .ALUOp      (alu_op)
+    .ALUOp      (alu_op),
     .ALUSrc     (alu_src)
 );
 

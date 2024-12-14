@@ -2,7 +2,7 @@ module Control
 (
     input  [6:0] opcode,
     output reg       RegWrite,
-    output reg [1:0] ALUOp
+    output reg [1:0] ALUOp,
     output reg       ALUSrc
 );
 

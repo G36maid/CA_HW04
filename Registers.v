@@ -27,7 +27,7 @@ assign RS1data_o = register[RS1addr_i];
 assign RS2data_o = register[RS2addr_i];
 
 // Write data
-always @(negedge clk_i or negedge rst_i) begin
+always @(posedge clk_i or posedge rst_i) begin
     if (rst_i) begin
         for (i = 0; i < 32; i = i + 1)
             register[i] <= 64'b0; // Reset all registers to 0
@@ -38,7 +38,7 @@ always @(negedge clk_i or negedge rst_i) begin
 end
 
 // Ensure register[0] is always 0
-always @(negedge clk_i) begin
+always @(posedge clk_i) begin
     register[0] <= 64'b0;
 end
 

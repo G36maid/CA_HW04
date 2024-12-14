@@ -61,11 +61,13 @@ always @(posedge clk) begin
 
     // Print ALU inputs and output
     $fdisplay(outfile, "ALU data1 = %d, data2 = %d", CPU.ALU.data1_i, CPU.ALU.data2_i);
+    $fdisplay(outfile, "imm_data = %d", CPU.Imm_Gen.imm_o);
     $fdisplay(outfile, "ALU result = %d", CPU.ALU.data_o);
 
     // Print control signals
     $fdisplay(outfile, "RegWrite = %d", CPU.reg_write);
     $fdisplay(outfile, "ALUOp = %b", CPU.alu_op);
+    $fdisplay(outfile, "ALUSrc = %d ( 0=R /1=I )", CPU.alu_src);
     $fdisplay(outfile, "ALUCtrl = %b", CPU.alu_ctrl);
 
     $fdisplay(outfile, "\n");
