@@ -4,10 +4,6 @@ module CPU
     input rst_i
 );
 
-// TODO: Implement your CPU here
-
-// Do not change the name of these module instances.
-
 // Internal signals
 wire [63:0] pc_i;
 wire [63:0] pc_o;
@@ -16,11 +12,14 @@ wire [4:0]  rs1_addr, rs2_addr, rd_addr;
 wire [63:0] rs1_data, rs2_data, rd_data;
 wire [63:0] imm_data;
 wire        reg_write;
+wire [1:0]  alu_op;
 wire [2:0]  alu_ctrl;
+wire        alu_src;
 wire [6:0]  funct7;
 wire [2:0]  funct3;
 wire [63:0] alu_result;
 wire        alu_zero;
+wire [6:0]  opcode;
 
 // PC instance
 PC PC(
@@ -30,22 +29,27 @@ PC PC(
     .pc_o       (pc_o)
 );
 
+// Instruction Memory instance
 Instruction_Memory Instruction_Memory(
     .addr_i     (pc_o), 
-    .instr_o    (instr)
+    .instr_o    (instr) // [31:0]
 );
 
 // Decode instruction fields
+assign opcode   = instr[6:0];
+assign rd_addr  = instr[11:7];
+assign funct3   = instr[14:12];
 assign rs1_addr = instr[19:15];
 assign rs2_addr = instr[24:20];
-assign rd_addr  = instr[11:7];
 assign funct7   = instr[31:25];
-assign funct3   = instr[14:12];
 
+
+// Control instance
 Control Control(
-    .opcode     (instr[6:0]),
+    .opcode     (opcode),
     .RegWrite   (reg_write),
-    .ALUCtrl    (alu_ctrl)
+    .ALUOp      (alu_op)
+    .ALUSrc     (alu_src)
 );
 
 // Registers instance
@@ -69,8 +73,8 @@ Imm_Gen Imm_Gen(
 
 // ALU Control instance
 ALU_Control ALU_Control(
-    .funct7     (funct7),
     .funct3     (funct3),
+    .funct7     (funct7),
     .ALUOp      (alu_op),
     .ALUCtrl    (alu_ctrl)
 );
@@ -78,13 +82,15 @@ ALU_Control ALU_Control(
 // ALU instance
 ALU ALU(
     .data1_i    (rs1_data),
-    .data2_i    (rs2_data),
+    .data2_i    (rs2_data), //imm_data and rs2_data deside by alu_src
+    .ALU_src    (alu_src),
+    .imm_data   (imm_data),
     .ALUCtrl_i  (alu_ctrl),
     .data_o     (alu_result),
     .zero_o     (alu_zero)
 );
 
-// Example for sequential execution
+// add pc_o with 4
 assign pc_i = pc_o + 4;
 
 // Write back to register

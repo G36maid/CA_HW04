@@ -36,12 +36,7 @@ always @(posedge clk) begin
 
     cycles = cycles + 1;
 
-    // Print PC and instruction
-    $fdisplay(outfile, "Cycle: %d", cycles);
     $fdisplay(outfile, "PC  = %d", CPU.PC.pc_o);
-    $fdisplay(outfile, "Instr = %h", CPU.instr);
-
-    // Print register values
     $fdisplay(outfile, "x0  = %d, x1  = %d", CPU.Registers.register[0], CPU.Registers.register[1]);
     $fdisplay(outfile, "x2  = %d, x3  = %d", CPU.Registers.register[2], CPU.Registers.register[3]);
     $fdisplay(outfile, "x4  = %d, x5  = %d", CPU.Registers.register[4], CPU.Registers.register[5]);
@@ -58,16 +53,6 @@ always @(posedge clk) begin
     $fdisplay(outfile, "x26 = %d, x27 = %d", CPU.Registers.register[26], CPU.Registers.register[27]);
     $fdisplay(outfile, "x28 = %d, x29 = %d", CPU.Registers.register[28], CPU.Registers.register[29]);
     $fdisplay(outfile, "x30 = %d, x31 = %d", CPU.Registers.register[30], CPU.Registers.register[31]);
-
-    // Print ALU inputs and output
-    $fdisplay(outfile, "ALU data1 = %d, data2 = %d", CPU.ALU.data1_i, CPU.ALU.data2_i);
-    $fdisplay(outfile, "ALU result = %d", CPU.ALU.data_o);
-
-    // Print control signals
-    $fdisplay(outfile, "RegWrite = %d", CPU.reg_write);
-    $fdisplay(outfile, "ALUOp = %b", CPU.alu_op);
-    $fdisplay(outfile, "ALUCtrl = %b", CPU.alu_ctrl);
-
     $fdisplay(outfile, "\n");
 end
 
