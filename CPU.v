@@ -8,9 +8,19 @@ module CPU
 
 // Do not change the name of these module instances.
 
-
+// Internal signals
 wire [63:0] pc_i;
 wire [63:0] pc_o;
+wire [31:0] instr;
+wire [4:0]  rs1_addr, rs2_addr, rd_addr;
+wire [63:0] rs1_data, rs2_data, rd_data;
+wire [63:0] imm_data;
+wire        reg_write;
+wire [2:0]  alu_ctrl;
+wire [6:0]  funct7;
+wire [2:0]  funct3;
+wire [63:0] alu_result;
+wire        alu_zero;
 
 // PC instance
 PC PC(
@@ -48,6 +58,13 @@ Registers Registers(
     .RS1data_o  (rs1_data), 
     .RS2data_o  (rs2_data)
 );
+
+// Immediate Generator instance
+Imm_Gen Imm_Gen(
+    .instr_i    (instr),
+    .imm_o      (imm_data)
+);
+
 // ALU Control instance
 ALU_Control ALU_Control(
     .funct7     (funct7),
@@ -64,5 +81,8 @@ ALU ALU(
     .data_o     (alu_result),
     .zero_o     (alu_zero)
 );
+
+// Example for sequential execution
+assign pc_i = pc_o + 4;
 
 endmodule
