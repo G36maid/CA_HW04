@@ -9,4 +9,12 @@ module PC
 // TODO: Implement your PC here.
 // PC should be reset to 0 when rst_i is high.
 
+always @(posedge clk_i or posedge rst_i) begin
+    if (rst_i)
+        pc_o <= 64'b0; // Reset PC to 0
+    else
+        pc_o <= pc_i;  // Update PC with new value
+end
+
+
 endmodule

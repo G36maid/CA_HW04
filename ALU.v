@@ -11,7 +11,7 @@ assign data_o = result;
 assign zero_o = (result == 0);
 
 always @(*) begin
-    case (ALUCtrl_i)
+    case (ALUCtrl_i)    
         3'b000: result = data1_i + data2_i; // Addition
         3'b001: result = data1_i - data2_i; // Subtraction
         3'b010: result = data1_i & data2_i; // Bitwise AND
